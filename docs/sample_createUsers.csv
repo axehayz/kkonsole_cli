@@ -1,0 +1,3 @@
+user_email,user_full_name,role,email_product,email_service
+trial@moretrial.com,Sumo trial,Member,False,True
+akshay+trial1@kentik.com,Akshay,Administrator,True,False
