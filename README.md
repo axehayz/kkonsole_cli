@@ -1,4 +1,4 @@
-# kkonsole
+# [kkonsole](https://github.com/axehayz/kkonsole)
 
 kkonsole command-line project (docker + python based) for Kentik SE/CSE to perform common tasks.
 Run a self contained docker image directly by `docker run -it --rm akshaydh:kkonsole_cli`. [kkonsole_cli](https://hub.docker.com/r/akshaydh/kkonsole_cli)
@@ -8,7 +8,7 @@ Run a self contained docker image directly by `docker run -it --rm akshaydh:kkon
 The project is meant to be installed locally and run as a lightweight python docker container(s)
 
 1. Download and install [Docker](https://www.docker.com/products/docker-desktop). Skip if already installed and logged in.
-2. Run Docker Container by issuing `docker run -it --rm axehayz:kkonsole_cli:latest`
+2. Run Docker Container by issuing `docker run -it --rm akshaydh:kkonsole_cli:latest`
 3. (Optionally) Clone the repository and build container yourself if you wish to change source files
    1. Clone the repository `git clone https://github.com/axehayz/kkonsole_cli.git`
    2. Build the container using `docker build -t kkonsole_cli:myversion .`
@@ -29,7 +29,7 @@ All the entrypoint commands and subcommands support `--help` functionality. Feel
 
 ### kkonsole entrypoint
 
-This is used for most basic tasks like using API credentials from environment file to maintain a persistant login for wherever you need to use the credentials, check for new API credentials, and find what credentials are currently in use.
+This is used for most basic tasks like using API credentials from environment file so as to maintain a persistent login. Or to validate Kentik API credentials. This command attempts to GET users list using provided APIs. The method passes if the provided API were authenticated and returns the "logged in" user. kkonsole entry point can also be used to find out your IP address and if any access control changes need to be done in Kentik Admin.
 
 ```bash
 bash-4.4# kkonsole --help
@@ -45,12 +45,11 @@ Commands:
   whoami
 ```
 
-Use `kkonsole login` to evaluate necessary credentials stored in kkonsole_env.env file.
 
 ```bash
 bash-4.4# kkonsole login
-Api token [mykey_from_env_file]:
-Api email [myemail_from_env_file]:
+Api token []:
+Api email []:
 [INFO]: Login successful.
 [INFO]: Welcome Akshay Dhawale:[74354]
 
@@ -62,13 +61,13 @@ bash-4.4# kkonsole login --api-token mykey --api-email myemail
 [INFO]: Welcome Akshay Dhawale:[74354]
 ```
 
-Logs are stored in `/var/log/kkonsole.log`
+> Logs are stored in `/var/log/kkonsole.log`
 
 ---
 
 ### kperform entrypoint
 
-kperform is used to create, update, delete kentik objects via Kentik v5 API. It is *required* to login before issuing kperform via `kkonsole login` command.
+kperform is used to create, update, delete kentik objects via Kentik v5 API. It is *required* that you have a valid login before issuing kperform. Logins are performed via `kkonsole login` command.
 
 ```bash
 bash-4.4# kperform --help
@@ -94,7 +93,6 @@ Usage: kperform create [OPTIONS] COMMAND [ARGS]...
   create group routines for POST API methods against kentik v5 api
 
 Options:
-  -p, --prod / --no-prod  PROD credentials.
   --help                  Show this message and exit.
 
 Commands:
@@ -121,8 +119,8 @@ bash-4.4# kperform create devices -f /kkonsole/docs/sample_createDevices.csv
 
 `kperform create devices -f /kkonsole/docs/sample_createDevices.csv` will create 2 sample devices from the /kkonsole/docs/sample_createDevices.csv in the account which is logged in.
 
->Note:
->The source_file should be present inside the container. To use your custom .csv file as source_file, proceed to add/copy the file in the container.
+>**Note:**
+>**The source_file should be present inside the container. To use your custom .csv file as source_file, proceed to add/copy the file in the container.**
 >`docker cp /source_file/on/local/machine <container>:/path/inside/container/source_file`
 >Find docker container using `docker container ls`
 
