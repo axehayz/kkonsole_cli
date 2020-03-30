@@ -1,6 +1,7 @@
 # kkonsole
 
 kkonsole command-line project (docker + python based) for Kentik SE/CSE to perform common tasks.
+Run a self contained docker image directly by `docker run -it --rm akshaydh:kkonsole_cli`. [kkonsole_cli](https://hub.docker.com/r/akshaydh/kkonsole_cli)
 
 ## Installation
 
